@@ -1,61 +1,251 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Free Raspberry Pi Dynamic DNS</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="library.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pi-DNS | Dynamic DNS for your Pi</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Custom Styling -->
+    <style>
+        pre {
+            background-color: #D1D1D0;
+            overflow: auto;
+            font-family: 'Monaco', monospace;
+            padding: 0 1em;
+        }
+
+
+        code {
+            font-family: Monaco, monospace;
+            font-size: $base-font-size;
+            line-height: 100%;
+            background-color: #eee;
+            padding: 0.2em;
+            letter-spacing: -0.05em;
+            word-break: normal;
+            border-radius: 5px;
+        }
+
+
+        pre code {
+            border: none;
+            background: none;
+            font-size: $base-font-size * 0.875;
+            line-height: 1em;
+            letter-spacing: normal;
+            word-break: break-all;
+        }    
+    </style>
 </head>
-
 <body>
-  <h1>Pi-DNS</h1>
+    <!-- Header Portion -->
+    <header>
+        <nav>
+            <div class="nav-wrapper black hoverable">
+                <div class="container">
+                    <div class="col s12 m12 l12">
+                        <a href="http://www.pi-dns.me/" class="brand-logo center">
+                            <!-- Pi-DNS -->
+                            <span style="color:#c51a4a">Pi</span>-<span style="color:#6cc04a">DNS</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<h3>About</h3>
-<p>This is a really simple Dynamic DNS service built for Raspberry Pi users but accessible to everyone.</p>
-The service easily enables you to create an easy to remember name to point to your device's public IP. You can then access your public IP using a hostname like <code>myname.pi-dns.me</code> rather than having to remember the IP address every time it changes.</p>
+    <!-- Main Content -->
+    <main>
+        <!-- About Section -->
+        <section class="black-text">
+            <div class="container">
+                <h3>About</h3>
+                <hr>
+                <p>
+                    This is a really simple Dynamic DNS service built for Raspberry Pi&reg; users but accessible to everyone.
+                    The service easily enables you to create an easy to remember name to point to your device's public IP. You can then access your public IP using a hostname like myname.pi-dns.me rather than having to remember the IP address every time it changes.
+                </p>
+            </div>
+        </section>
 
-<h3>No registration</h3>
-<p>There is no registration required for this service, mainly because there isn't any need for it and I don't want to have to manage your personal data.</p>
+        <!-- No Registration Section -->
+        <section class="black-text">
+            <div class="container">
+                <h3>No Registration Required</h3>
+                <hr>
+                <p>
+                    There is no registration required for this service, mainly because there isn't any need for it and I don't want to have to manage your personal data.
+                </p>
+            </div>
+        </section>
 
-<h3>How to use</h3>
-<p>I've made it as simple as possible to get started, you only need one command to get your DNS entry created. It uses the cURL command which is pretty much standard across all linux distributions although you could use anthing that can all a web URL.</p>
-<p><code>curl 'https://api.pi-dns.me/v1/stable/create?name=<em>myname</em>'</code></p>
-<p>Obviously use your own chosen name instead of <code>myname</code>. You should get a response something like this:</p>
-<p><code>{"response": "81f07d49-f03a-450f-b0d7-99a0217b075f", "statusCode": 201}</code></p>
-<p>The long string in the response section is quite important because that is the secret key which lets you keep your DNS entry up to date. You'll want to make a note of that somewhere and not share it with anyone.</p>
-<p>If you have tried to create a name that someone has already taken then you'll get a response to tell you that. It will look like this:</p>
-<p><code>{"response": "Already Taken", "statusCode": 200}</code></p>
-<p>Don't worry, just try another name.</p>
-<p>If you are of a somewhat lazy disposition you can use the little widget below to to the bit above.</p>
-<input type="text" name="Name" value="myname">
-<input type="submit" name="Submit" value="Submit" onclick="create('canary')">
+        <!-- Usage Section -->
+        <section class="black-text">
+            <div class="container">
+                <h3>How To Use</h3>
+                <hr>
+                <p>
+                    <p>
+                        I've made it as simple as possible to get started, you only need one command to get your DNS entry created. It uses the cURL command which is pretty much standard across all linux distributions although you could use anthing that can all a web URL.
+                    </p>
 
+                    <pre><code>curl 'https://api.pi-dns.me/v1/stable/create?name=myname'</code></pre>
 
-<p>Once you have created your DNS name you need to keep it updated in case your internet provider changes it. This can be done with one command using the name that you have chosen and the secret key. The command below uses cURL but again you can do this from anything including a web browser. You'll need to change the name to the one you chose and the secret to the one you got just now.</p>
-<p><code>curl 'https://api.pi-dns.me/v1/stable/update?name=<em>myname</em>&secret=<em>81f07d49-f03a-450f-b0d7-99a0217b075f</em>'</code></p>
+                    <p>
+                        Obviously use your own chosen name instead of <code>myname</code> You should get a response something like this:
+                    </p>
 
-<p>There are three responses you are likely to get. The first is a success code if the entry has been updated:</p>
-<p><code>{"response": "Updated", "statusCode": 200}</code></p>
-<p>The second response is if you have tried to update a name that does not exist.</p>
-<p><code>{"response": "Not Found", "statusCode": 404}</code></p>
-<p>The third response is if you have not got your secret key right or are trying to update someone else's name. Check your details and maybe create a new name of your own.</p>
-<p><code>{"response": "Not Authorised", "statusCode": 401}</code></p>
+                    <pre><code>{"response": "81f07d49-f03a-450f-b0d7-99a0217b075f", "statusCode": 201}</code></pre>
 
-<p>You will need to update your IP ideally at least once a day, this is because any names not updated at least once a week will be deleted. The best way to so this on a Raspberry Pi is to set up a cron job to run the command. To do this just run <code>crontab -e</code> and paste the line below at the bottom of the cron list then save and exit.</p>
+                    <p>
+                        The long string in the response section is quite important because that is the secret key which lets you keep your DNS entry up to date. <b> You'll want to make a note of that somewhere and not share it with anyone.</b>
+                    </p>
 
-<p><code>*/15 * * * * /usr/bin/curl 'https://api.pi-dns.me/v1/stable/update?name=<em>myname</em>&secret=<em>81f07d49-f03a-450f-b0d7-99a0217b075f</em>' >/dev/null 2>&1</code></p>
+                    <p>
+                        If you have tried to create a name that someone has already taken then you'll get a response to tell you that. It will look like this:
+                    </p>
 
-<h3>Beta version</h3>
-<p>There is a beta endpoint available, just use 'beta' instead of 'stable' in the URI. Of course this is meant for test purposes only so don't get upset if it doesn't work.</p>
+                    <pre><code>{"response": "Already Taken", "statusCode": 200}</code></pre>
 
+                    <p>
+                        Don't worry, just try another name.
+                    </p>
 
-<h3>Tip Jar</h3>
-<p>It's a free service because it doesn't cost much to run however if you feel like dropping a small fraction of a bitcoin in the tip jar you can:
-<ul>
-<li>bitcoin: 12AYzeDjwGQYxP37SjoZ8FjDm15Ys86Srj</li>
-<li>bitcoincash: qqxvdyucqrfwn4xmu6htsmgd7n45n7nqr5aujwxrha</li>
-</ul>
+                    <p>
+                        If you are of a somewhat lazy disposition you can use the little widget below.
+                    </p>
+                    
+
+                    <!-- WIDGET FITS HERE -->
+                    <div class="row">
+                        <form action="" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">mode_edit</i>
+                                    <input placeholder="Enter a subdomain name" id="subdomain" type="text" class="validate">
+                                    <label for="subdomain"></label>
+                                </div>
+                                <button class="btn waves-effect waves-light black hoverable" type="submit" name="action">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END OF WIDGET -->
+
+                    <p>
+                        Once you have created your DNS name you need to keep it updated in case your internet provider changes it. This can be done with one command using the name that you have chosen and the secret key. The command below uses cURL but again you can do this from anything including a web browser. You'll need to change the name to the one you chose and the secret to the one you got just now.
+                    </p>
+
+                    <pre><code>curl 'https://api.pi-dns.me/v1/stable/update?name=myname&secret=81f07d49-f03a-450f-b0d7-99a0217b075f'</code></pre>
+
+                    <p>
+                        There are three responses you are likely to get. The first is a success code if the entry has been updated:
+                    </p>
+
+                    <pre><code>{"response": "Updated", "statusCode": 200}</code></pre>
+                    
+                    <p>
+                        The second response is if you have tried to update a name that does not exist.
+                    </p>
+
+                    <pre><code>{"response": "Not Found", "statusCode": 404}</code></pre>
+
+                    <p>
+                        The third response is if you have not got your secret key right or are trying to update someone else's name. Check your details and maybe create a new name of your own.
+                    </p>
+
+                    <pre><code>{"response": "Not Authorised", "statusCode": 401}</code></pre>
+
+                    <p>
+                        You will need to update your IP ideally at least once a day, this is because any names not updated at least once a week will be deleted. The best way to so this on a Raspberry Pi is to set up a cron job to run the command. To do this just run crontab -e and paste the line below at the bottom of the cron list then save and exit.
+                    </p>
+
+                    <pre><code>*/15 * * * * /usr/bin/curl 'https://api.pi-dns.me/v1/stable/update?name=myname&secret=81f07d49-f03a-450f-b0d7-99a0217b075f' >/dev/null 2>&1</code></pre>
+                </p>
+            </div>
+        </section>
+
+        <!-- Beta Section -->
+        <section class="black-text">
+            <div class="container">
+                <h3>Beta Version</h3>
+                <hr>
+
+                <p>
+                    There is a beta endpoint available, just use 'beta' instead of 'stable' in the URI. Of course this is meant for test purposes only so don't get upset if it doesn't work.
+                </p>
+            </div>
+        </section>
+
+        <!-- Tip Jar Section -->
+        <section class="black-text">
+            <div class="container">
+                <h3>Tip Jar</h3>
+                <hr>
+
+                <p>
+                    It's a free service because it doesn't cost much to run however if you feel like dropping a small fraction of a bitcoin in the tip jar you can: 
+                </p>
+
+                <!-- Bitcoin Addresses -->
+                <ul class="collection z-depth-0">
+                        <li class="collection-item avatar">
+                            <img src="./bitcoin-logo.jpg" alt="" class="circle">
+                            <span class="title">Bitcoin</span>
+                            <p>12AYzeDjwGQYxP37SjoZ8FjDm15Ys86Srj</p>
+                            <!-- <a href="#" class="secondary-content"><i class="material-icons">attach_money</i></a> -->
+                        </li>
+                        <li class="collection-item avatar">
+                            <img src="./bitcoin-cash-logo.jpg" alt="" class="circle">
+                            <!-- <i class="material-icons circle">folder</i> -->
+                            <span class="title">Bitcoincash</span>
+                            <p>qqxvdyucqrfwn4xmu6htsmgd7n45n7nqr5aujwxrha</p>
+                            <!-- <a href="#!" class="secondary-content"><i class="material-icons">attach_money</i></a> -->
+                        </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Disclaimer Section -->
+        <section class="black-text">
+            <div class="container">
+                <h4>Disclaimer</h4>
+                <hr>
+
+                <p>
+                    <em>Raspberry Pi is a trademark of the Raspberry Pi Foundation.</em>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer black lighten-2">
+        <div class="page-footer black lighten-2">
+            <div class="container">
+                <div class="row center">
+                    <div class="col s12 l12">
+                        <span class="grey-text lighten-2">
+                                Hosted with<img src="./heart-logo.png" alt="" width="auto" height="30">on<img src="./aws-logo.png" alt="" width="auto" height="30">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright black lighten-2">
+            <div class="container center">
+                <span class="grey-text lighten-2">
+                    &copy; 2019 Copyright Text
+                </span>
+            </div>
+        </div>
+    </footer>
 
 </body>
-
-
-
 </html>
