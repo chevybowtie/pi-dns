@@ -39,8 +39,12 @@
             line-height: 1em;
             letter-spacing: normal;
             word-break: break-all;
-        }    
+        }
     </style>
+    <!-- Script sources -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="library.js"></script>
+
 </head>
 <body>
     <!-- Header Portion -->
@@ -119,22 +123,20 @@
                     <p>
                         If you are of a somewhat lazy disposition you can use the little widget below.
                     </p>
-                    
+
 
                     <!-- WIDGET FITS HERE -->
                     <div class="row">
-                        <form action="" class="col s12">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">mode_edit</i>
                                     <input placeholder="Enter a subdomain name" id="subdomain" type="text" class="validate">
                                     <label for="subdomain"></label>
                                 </div>
-                                <button class="btn waves-effect waves-light black hoverable" type="submit" name="action">Submit
+                                <button class="btn waves-effect waves-light black hoverable" type="submit" name="action" onclick="create()">Submit
                                     <i class="material-icons right">send</i>
                                 </button>
                             </div>
-                        </form>
                     </div>
                     <!-- END OF WIDGET -->
 
@@ -149,7 +151,7 @@
                     </p>
 
                     <pre><code>{"response": "Updated", "statusCode": 200}</code></pre>
-                    
+
                     <p>
                         The second response is if you have tried to update a name that does not exist.
                     </p>
@@ -190,7 +192,7 @@
                 <hr>
 
                 <p>
-                    It's a free service because it doesn't cost much to run however if you feel like dropping a small fraction of a bitcoin in the tip jar you can: 
+                    It's a free service because it doesn't cost much to run however if you feel like dropping a small fraction of a bitcoin in the tip jar you can:
                 </p>
 
                 <!-- Bitcoin Addresses -->
@@ -241,7 +243,7 @@
         <div class="footer-copyright black lighten-2">
             <div class="container center">
                 <span class="grey-text lighten-2">
-                    &copy; 2019 Copyright Text
+                    &copy; 2019 Site design by Harsha Vardhan and content by <a href= "https://www.simonpainter.com">Simon Painter</a>
                 </span>
             </div>
         </div>
