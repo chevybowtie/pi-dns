@@ -141,7 +141,7 @@
                     <!-- END OF WIDGET -->
 
                     <p>
-                        Once you have created your DNS name you need to keep it updated in case your internet provider changes it. This can be done with one command using the name that you have chosen and the secret key. The command below uses cURL but again you can do this from anything including a web browser. You'll need to change the name to the one you chose and the secret to the one you got just now.
+                        Once you have created your DNS name you need to keep it updated in case your internet provider changes you IP. This can be done with one command using the name that you have chosen and the secret key. The command below uses cURL but again you can do this from anything including a web browser. You'll need to change the name to the one you chose and the secret to the one you got just now.
                     </p>
 
                     <pre><code>curl 'https://api.pi-dns.me/v1/stable/update?name=myname&secret=81f07d49-f03a-450f-b0d7-99a0217b075f'</code></pre>
@@ -163,6 +163,32 @@
                     </p>
 
                     <pre><code>{"response": "Not Authorised", "statusCode": 401}</code></pre>
+
+                    <p>
+                        Again, for those of a lazy disposition, you can use the little widget below.
+                    </p>
+
+
+                    <!-- WIDGET FITS HERE -->
+                    <div class="row">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">mode_edit</i>
+                                    <input placeholder="Enter your subdomain name" id="name" type="text" class="validate">
+                                    <label for="name"></label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">mode_edit</i>
+                                    <input placeholder="Enter your super secret key" id="secret" type="text" class="validate">
+                                    <label for="secret"></label>
+                                </div>
+                                <button class="btn waves-effect waves-light black hoverable" type="submit" name="action" onclick="update()">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                    </div>
+                    <!-- END OF WIDGET -->
+
 
                     <p>
                         You will need to update your IP ideally at least once a day, this is because any names not updated at least once a week will be deleted. The best way to so this on a Raspberry Pi is to set up a cron job to run the command. To do this just run crontab -e and paste the line below at the bottom of the cron list then save and exit.
